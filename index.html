@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Banff Christmas Trip</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f2f3f5; --side:#fbfbfc; --panel:#ffffff; --fg:#1f2433; --muted:#6b7080; --faint:#a3a7b3;
+  --line:#e3e5ec; --soft:#f2f3f7; --track:#eceef3; --hover:#eef0f7;
+  --accent:#334fa1; --accent-soft:#e7ebf6; --accent-ink:#ffffff; --red:#ee3733;
+  --c-act:#334fa1; --c-act-bg:#dfe6f5; --c-travel:#8a8f9c; --c-travel-bg:#e8e9ec; --c-free:#2f9e5a; --c-free-bg:#e0f1e5; --c-meal:#e8930c; --c-meal-bg:#fbefd9;
+  --ok:#2f9e5a; --warn:#e8930c; --bad:#ee3733;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 0 0 1px rgba(0,0,0,.03);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
+  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;
+  --r:20px; --r-sm:12px;
+  --chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236b7080' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e111a; --side:#131726; --panel:#181d2c; --fg:#eef0f6; --muted:#9aa1b5; --faint:#646b80;
+  --line:#262c40; --soft:#1f2537; --track:#262c40; --hover:#222a40;
+  --accent:#7e97d6; --accent-soft:#1f2a4d; --accent-ink:#0e111a; --red:#ff5a55;
+  --c-act:#8fa6e0; --c-act-bg:#22305a; --c-travel:#9aa1b5; --c-travel-bg:#262c40; --c-free:#5fd18a; --c-free-bg:#183a28; --c-meal:#ffb340; --c-meal-bg:#3a2c12;
+  --ok:#5fd18a; --warn:#ffb340; --bad:#ff5a55; --shadow:0 0 0 1px rgba(255,255,255,.05);
+}}
+:root[data-theme="dark"]{
+  --bg:#0e111a; --side:#131726; --panel:#181d2c; --fg:#eef0f6; --muted:#9aa1b5; --faint:#646b80;
+  --line:#262c40; --soft:#1f2537; --track:#262c40; --hover:#222a40;
+  --accent:#7e97d6; --accent-soft:#1f2a4d; --accent-ink:#0e111a; --red:#ff5a55;
+  --c-act:#8fa6e0; --c-act-bg:#22305a; --c-travel:#9aa1b5; --c-travel-bg:#262c40; --c-free:#5fd18a; --c-free-bg:#183a28; --c-meal:#ffb340; --c-meal-bg:#3a2c12;
+  --ok:#5fd18a; --warn:#ffb340; --bad:#ff5a55; --shadow:0 0 0 1px rgba(255,255,255,.05);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--side)}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+
+/* sidebar */
+aside.side{background:var(--side);border-right:1px solid var(--line);padding:calc(24px + env(safe-area-inset-top,0px)) 14px 18px max(14px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}
+.brand{display:flex;flex-direction:column;gap:8px;padding:2px 12px 0}
+.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.015em}
+.wordmark svg{width:28px;height:28px;flex:0 0 auto}
+.brand .t{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
+.brand .t::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--red)}
+.sec-lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 12px;margin-bottom:6px}
+nav.side{display:flex;flex-direction:column;gap:2px}
+nav.side a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:500;font-size:14px}
+nav.side a svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+nav.side a:hover{background:var(--hover);color:var(--fg)}
+nav.side a[aria-current="page"]{background:var(--hover);color:var(--accent)}
+nav.side a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+nav.side .n{margin-left:auto;font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;border-top:1px solid var(--line);padding:14px 10px 0;display:flex;flex-direction:column;gap:12px}
+.seg{display:inline-flex;background:var(--track);border-radius:10px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--muted);padding:5px 10px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button:focus-visible{outline:2px solid var(--accent)}
+.status-line{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.status-line .pip{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+
+main{min-width:0;padding-block:calc(36px + env(safe-area-inset-top,0px)) 56px;padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}
+.inner{max-width:1120px;margin:0 auto}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  aside.side{position:sticky;top:0;z-index:6;height:auto;flex-direction:row;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .sec-lab,.status-line,.brand .t,.wordmark span{display:none}
+  .brand{padding:0;flex:0 0 auto}
+  nav.side{flex-direction:row}
+  nav.side a{white-space:nowrap;padding:7px 10px}
+  nav.side a svg{display:none}
+  nav.side .n{display:none}
+  .side-foot{margin:0 0 0 auto;border:0;padding:0;flex-direction:row}
+  main{padding-block:22px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+}
+
+/* type */
+header.top{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:var(--font-display);font-weight:700;font-size:40px;letter-spacing:-.025em;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:600;font-size:14.5px;margin:0}
+.lede{color:var(--muted);max-width:70ch;margin:0;font-size:15px}
+.lede b{color:var(--fg);font-weight:600}
+@media (max-width:620px){h1{font-size:30px}}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
+.card{background:var(--panel);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.card-h .aside{font-size:12.5px;color:var(--muted);flex:0 0 auto}
+.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+@media (max-width:1100px){.span-4{grid-column:span 6}.span-5,.span-7,.span-8{grid-column:span 12}}
+@media (max-width:620px){.span-4,.span-6{grid-column:span 12}.card{padding:18px}}
+.kpis{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{gap:6px}
+a.card.kpi{color:inherit;text-decoration:none;transition:box-shadow .15s ease}
+a.card.kpi:hover{box-shadow:var(--shadow),0 6px 18px rgba(20,30,60,.08)}
+a.card.kpi:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a.card.kpi .lab::after{content:" \203A";color:var(--faint)}
+.kpi .lab{font-size:13.5px;color:var(--muted)}
+.kpi .v{font-family:var(--font-display);font-size:38px;font-weight:600;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:6px}
+.kpi .v small{font-size:18px;font-weight:500;color:var(--muted);margin-left:3px}
+.kpi .s{color:var(--muted);font-size:13px}
+.v.ok{color:var(--ok)}.v.warn{color:var(--warn)}.v.acc{color:var(--accent)}
+@media (max-width:620px){.kpi .v{font-size:30px}}
+
+/* bar rows */
+.bars{display:flex;flex-direction:column;gap:2px}
+.bar-row{display:grid;grid-template-columns:minmax(90px,130px) minmax(0,1fr) 52px;align-items:center;gap:14px;padding:7px 8px;margin:0 -8px;border-radius:10px;background:none;border:0;color:inherit;font:inherit;text-align:left;width:calc(100% + 16px);cursor:pointer}
+.bar-row:hover{background:var(--soft)}
+.bar-row:focus-visible{outline:2px solid var(--accent)}
+.bar-row .l{font-size:13.5px;white-space:nowrap}
+.bar-row .l span{color:var(--muted)}
+.bar-track{height:8px;background:var(--track);border-radius:99px;overflow:hidden;display:block}
+.bar-fill{height:100%;border-radius:99px;display:block;background:var(--ok)}
+.num{font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.sub{color:var(--muted);font-size:13px;margin:0}
+
+/* alerts */
+.alerts{display:flex;flex-direction:column;gap:10px}
+.alert{display:grid;grid-template-columns:10px minmax(0,1fr);gap:12px;padding:12px 14px;background:var(--soft);border-radius:var(--r-sm);font-size:13.5px}
+.alert .dot{margin-top:6px}
+.alert b{font-weight:600}
+.alert .m{color:var(--muted);font-size:12.5px;margin-top:2px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 auto}
+
+/* next-up */
+.next{display:flex;gap:16px;align-items:center}
+.next .cal{flex:0 0 auto;width:64px;border-radius:14px;overflow:hidden;background:var(--soft);text-align:center}
+.next .cal .mo{background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 0}
+.next .cal .d{font-family:var(--font-display);font-size:28px;font-weight:700;padding:4px 0 6px}
+.next .t{font-weight:600;font-size:16px}
+.next .m{color:var(--muted);font-size:13px}
+
+/* daylight */
+.daylight{position:relative;height:36px;border-radius:10px;background:linear-gradient(90deg,#1b2340 0%,#1b2340 10%,#f6c76b 12.5%,#bfe0ff 22%,#bfe0ff 56%,#f2a463 63%,#1b2340 66%,#1b2340 100%)}
+.dl-labels{position:relative;display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* hourly grid */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.chipf{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13px;font-weight:500;height:34px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+.chipf[aria-pressed="false"]{color:var(--faint);background:transparent}
+.chipf[aria-pressed="false"] .dot{opacity:.3}
+.chipf:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.toolbar .spacer{flex:1}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
+.switch input{appearance:none;-webkit-appearance:none;width:34px;height:20px;border-radius:99px;background:var(--track);position:relative;cursor:pointer;margin:0;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s}
+.switch input:checked{background:var(--ok)}
+.switch input:checked::after{transform:translateX(14px)}
+.switch input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sched-wrap{overflow-x:auto;padding:0;-webkit-overflow-scrolling:touch}
+.sched{min-width:920px;padding:18px 22px 22px}
+.s-head,.s-row{display:grid;grid-template-columns:110px minmax(0,1fr) 64px;gap:12px;align-items:center}
+.s-head{font-size:11.5px;color:var(--faint);font-weight:600;padding-bottom:8px}
+.hours{position:relative;height:16px}
+.hours span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.s-row{padding:6px 0;border-top:1px solid var(--line)}
+.s-day{font-weight:600;font-size:13.5px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;padding:6px 8px;margin-left:-8px;border-radius:8px}
+.s-day:hover{background:var(--soft)}
+.s-day small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.s-day.today{color:var(--red)}
+.lane{position:relative;height:66px;border-radius:10px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100%/15))}
+.lane .dl{position:absolute;top:0;bottom:0;background:rgba(246,199,107,.13);border-left:1px dashed rgba(232,147,12,.5);border-right:1px dashed rgba(232,147,12,.5);pointer-events:none}
+.blk{position:absolute;top:4px;bottom:4px;border-radius:8px;padding:6px 8px;font-size:11.5px;line-height:1.25;font-weight:600;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;min-width:0;cursor:pointer;border:0;text-align:left;font-family:inherit;transition:transform .12s ease,box-shadow .12s ease}
+.blk:hover{box-shadow:0 4px 12px rgba(20,30,60,.15);z-index:2}
+.blk:focus-visible{outline:2px solid var(--accent);outline-offset:1px;z-index:3}
+.blk.act{background:var(--c-act-bg);color:var(--c-act);border-left:3px solid var(--c-act)}
+.blk.travel{background:var(--c-travel-bg);color:var(--muted);border-left:3px solid var(--c-travel)}
+.blk.free{background:var(--c-free-bg);color:var(--c-free);border-left:3px solid var(--c-free)}
+.blk.meal{background:var(--c-meal-bg);color:var(--c-meal);border-left:3px solid var(--c-meal)}
+.blk.note{background:transparent;color:var(--muted);font-style:italic;font-weight:500;border:1px dashed var(--line)}
+.blk .bt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:var(--lines,3);overflow:hidden;overflow-wrap:normal;word-break:normal;min-width:0}
+.blk .tm{display:block;font-weight:500;opacity:.8;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blk.fit-2 .bt{--lines:2}
+.blk.fit-1 .bt{display:block;white-space:nowrap;text-overflow:ellipsis}
+.blk.fit-1 .tm{display:none}
+.blk.fit-0{padding:6px 0;align-items:center}
+.blk.fit-0 .bt,.blk.fit-0 .tm{display:none}
+.blk.fit-0::after{content:"\2026";font-weight:700;font-size:13px;line-height:1}
+.blk.tip-on{box-shadow:0 4px 12px rgba(20,30,60,.15);z-index:2}
+.tip{position:fixed;z-index:40;width:max-content;max-width:min(300px,calc(100vw - 24px));background:var(--panel);color:var(--fg);border-radius:14px;padding:12px 14px;box-shadow:0 12px 32px rgba(10,14,28,.2),0 0 0 1px var(--line);font-size:13px;line-height:1.4;opacity:0;transform:translateY(4px) scale(.98);transition:opacity .14s ease,transform .14s ease;pointer-events:none}
+.tip.show{opacity:1;transform:none;pointer-events:auto}
+.tip .tt{font-weight:600;font-size:14px;display:flex;align-items:flex-start;gap:8px}
+.tip .tt .dot{margin-top:6px}
+.tip .tw{color:var(--muted);font-size:12.5px;margin-top:2px;font-variant-numeric:tabular-nums}
+.tip .td{margin-top:8px;color:var(--fg)}
+.tip .tf{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tip .tmore{margin-top:10px;font-size:13px}
+.tip .tmore[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.tip{transition:none}}
+.blk.dim{opacity:.12;pointer-events:none}
+.s-open{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px}
+.s-open small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+.nowline{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--red);border-radius:2px;z-index:4;pointer-events:none}
+.nowline::before{content:"";position:absolute;top:-3px;left:-3px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--muted);margin-top:14px}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:14px;height:10px;border-radius:3px;display:inline-block}
+
+/* days */
+.days{display:flex;flex-direction:column;gap:14px}
+.search{font:inherit;font-size:14px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;height:38px;padding:0 14px 0 36px;width:min(360px,100%);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7080' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.search:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+.day{display:grid;grid-template-columns:76px minmax(0,1fr);gap:20px;align-items:start}
+.day .cal{width:64px;border-radius:14px;overflow:hidden;background:var(--soft);text-align:center}
+.day .cal .mo{background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 0}
+.day .cal .d{font-family:var(--font-display);font-size:26px;font-weight:700;padding:3px 0 0}
+.day .cal .w{font-size:11px;color:var(--muted);padding-bottom:6px;font-weight:600}
+.day-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.day-h h2{font-size:20px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.pill.lock{background:#fde4e3;color:#c22a26}
+.pill.open{background:var(--c-free-bg);color:var(--c-free)}
+.pill.tbd{background:var(--c-meal-bg);color:var(--c-meal)}
+:root[data-theme="dark"] .pill.lock{background:#3d1a1a;color:#ff8a86}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.lock{background:#3d1a1a;color:#ff8a86}}
+.tl{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.tl li{display:grid;grid-template-columns:96px 12px minmax(0,1fr);gap:12px;padding:7px 0;font-size:13.5px;position:relative}
+.tl li .w{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12.5px;padding-top:1px;text-align:right}
+.tl li .pt{position:relative}
+.tl li .pt::before{content:"";position:absolute;top:6px;left:2px;width:8px;height:8px;border-radius:50%;background:var(--c-act)}
+.tl li .pt::after{content:"";position:absolute;top:16px;bottom:-12px;left:5.5px;width:1px;background:var(--line)}
+.tl li:last-child .pt::after{display:none}
+.tl li.travel .pt::before{background:var(--c-travel)}
+.tl li.free .pt::before{background:var(--c-free)}
+.tl li.meal .pt::before{background:var(--c-meal)}
+.tl li.note .pt::before{background:transparent;border:1.5px dashed var(--faint)}
+.tl li.note .x{color:var(--muted);font-style:italic}
+.tl .x small{display:block;color:var(--muted);font-size:12.5px}
+.tl mark{background:var(--accent-soft);color:inherit;border-radius:3px;padding:0 1px}
+@media (max-width:620px){.day{grid-template-columns:minmax(0,1fr)}.day .cal{display:none}.tl li{grid-template-columns:74px 12px minmax(0,1fr);gap:8px}}
+
+/* saturday */
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.opt{position:relative;background:var(--panel);border-radius:16px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:8px;cursor:pointer;border:0;text-align:left;font:inherit;color:inherit;transition:box-shadow .15s}
+.opt:hover{box-shadow:var(--shadow),0 6px 18px rgba(20,30,60,.08)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent)}
+.opt .ix{width:28px;height:28px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--muted)}
+.opt[aria-pressed="true"] .ix{background:var(--accent);color:var(--accent-ink)}
+.opt .t{font-weight:600;font-size:15px}
+.opt .d{color:var(--muted);font-size:13px}
+.opt .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.place{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.place:first-of-type{border-top:0}
+.place .k{width:36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700}
+.place .m{color:var(--muted);font-size:13px;margin-top:2px}
+.meter{display:flex;gap:3px;margin-top:8px}
+.meter i{width:22px;height:5px;border-radius:99px;background:var(--track)}
+.meter.f1 i:nth-child(-n+1),.meter.f2 i:nth-child(-n+2),.meter.f3 i:nth-child(-n+3){background:var(--accent)}
+.pick-note{font-size:12.5px;color:var(--muted)}
+
+/* updates */
+.feed{display:flex;flex-direction:column}
+.feed-row{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.feed-row:last-child{border-bottom:0}
+.feed-ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center}
+.feed-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feed-t{font-weight:600;font-size:14.5px}
+.feed-m{color:var(--muted);font-size:13.5px;margin-top:3px}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,14,28,.32);z-index:30;opacity:0;transition:opacity .2s ease}
+.scrim.open{opacity:1}
+.drawer{position:fixed;top:0;bottom:0;right:0;z-index:31;width:min(400px,100%);background:var(--panel);box-shadow:0 0 40px rgba(10,14,28,.22);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .25s cubic-bezier(.2,.8,.2,1);padding-top:env(safe-area-inset-top,0px)}
+.drawer.open{transform:none}
+@media (prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
+.dr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 20px 14px;border-bottom:1px solid var(--line)}
+.dr-head h2{font-size:20px}
+.dr-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.dr-close{width:34px;height:34px;border-radius:10px;border:0;background:var(--soft);color:var(--muted);font-size:20px;line-height:1;cursor:pointer;flex:0 0 auto}
+.dr-close:hover{color:var(--fg)}
+.dr-close:focus-visible{outline:2px solid var(--accent)}
+.dr-body{flex:1;overflow-y:auto;padding:16px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;overscroll-behavior:contain}
+.kv{display:grid;grid-template-columns:90px minmax(0,1fr);gap:8px 12px;font-size:13.5px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.dr-note{background:var(--soft);border-radius:var(--r-sm);padding:12px 14px;font-size:13.5px}
+.linkbtn{background:none;border:0;color:var(--accent);font:inherit;font-weight:500;cursor:pointer;padding:0;text-align:left}
+.foot{margin-top:28px;color:var(--faint);font-size:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="wordmark">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M4 25l8-11 4 5 5-8 7 14z" fill="#fff" opacity=".95"/><path d="M12 14l2 3-2 0-2 0z M21 11l2.4 3.8h-4.8z" fill="var(--accent-soft)"/></svg>
+        <span>Banff</span>
+      </div>
+      <div class="t">Christmas 2026</div>
+    </div>
+    <div>
+      <div class="sec-lab">Trip</div>
+      <nav class="side" aria-label="Pages">
+        <a href="#overview" data-page="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>Overview</a>
+        <a href="#hourly" data-page="hourly"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Hourly</a>
+        <a href="#days" data-page="days"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Day by day</a>
+        <a href="#saturday" data-page="saturday"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>Saturday<span class="n">5</span></a>
+        <a href="#updates" data-page="updates"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 003.4 0"/></svg>Mom's updates<span class="n">4</span></a>
+      </nav>
+    </div>
+    <div class="side-foot">
+      <div class="seg" role="group" aria-label="Appearance">
+        <button data-theme-set="auto" aria-pressed="true">Auto</button>
+        <button data-theme-set="light" aria-pressed="false">Light</button>
+        <button data-theme-set="dark" aria-pressed="false">Dark</button>
+      </div>
+      <div class="status-line"><span class="pip"></span>Updated Nov 17</div>
+    </div>
+  </aside>
+
+  <main><div class="inner">
+
+    <!-- OVERVIEW -->
+    <section data-view="overview">
+      <header class="top">
+        <div class="eyebrow">Canmore, Alberta · Dec 20–27, 2026</div>
+        <h1>Banff Christmas Trip</h1>
+        <p class="lede">Mom &amp; Dad's plan from Nov 4, updated with Mom's notes from Nov 17. <b>All times are Banff local (MST).</b></p>
+      </header>
+      <div class="grid">
+        <div class="kpis">
+          <a class="card kpi" href="#days"><div class="lab">Countdown</div><div class="v acc" id="k-count">–</div><div class="s" id="k-count-s">until arrival day</div></a>
+          <a class="card kpi" href="#hourly"><div class="lab">Booked activities</div><div class="v">6</div><div class="s">Tubing, dogsleds, gondola, snowmobiles, bowling + food drive</div></a>
+          <a class="card kpi" href="#hourly"><div class="lab">Open time</div><div class="v ok" id="k-open">–</div><div class="s">Unscheduled hours, 7a–10p</div></a>
+          <a class="card kpi" href="#updates"><div class="lab">Snowmobile slots held</div><div class="v warn">17</div><div class="s">Headcount still to confirm</div></a>
+        </div>
+
+        <div class="card span-7">
+          <div class="card-h"><h2>Open time by day</h2><span class="aside">Tap a day for details</span></div>
+          <div class="bars" id="open-bars"></div>
+          <p class="sub">Dec 20 morning is travel, not free time. Dec 27 the group is out by 9 am.</p>
+        </div>
+
+        <div class="card span-5">
+          <div class="card-h"><h2 id="next-h">First up</h2></div>
+          <div class="next" id="next-up"></div>
+          <div class="card-h" style="margin-top:6px"><h3>Daylight</h3><span class="aside">≈ 8:45 am – 4:37 pm</span></div>
+          <div class="daylight" role="img" aria-label="Daylight runs about 8:45 am to 4:37 pm"></div>
+          <div class="dl-labels"><span>7a</span><span style="position:absolute;left:33.3%;transform:translateX(-50%)">noon</span><span>10p</span></div>
+          <p class="sub">Hikes need to run inside the daylight window.</p>
+        </div>
+
+        <div class="card span-12">
+          <div class="card-h"><h2>Heads up</h2><a class="aside linkbtn" href="#updates" style="text-decoration:none">All updates ›</a></div>
+          <div class="alerts">
+            <div class="alert"><span class="dot" style="background:var(--bad)"></span><div><b>No backing out of the big ones.</b> Snowmobiles and dogsledding are past the cancellation window. Bowling is nonrefundable.<div class="m">Every other activity is sold out for the week.</div></div></div>
+            <div class="alert"><span class="dot" style="background:var(--warn)"></span><div><b>Snowmobile headcount.</b> White and Wild is holding 17 slots until Mom confirms. Ashley is cutting her stay short.</div></div>
+            <div class="alert"><span class="dot" style="background:var(--accent)"></span><div><b>Dec 24 leaves at 9:00 am sharp.</b> It's a ~2-hr drive to Golden, BC. Pack sandwiches, drinks &amp; snacks per family.</div></div>
+            <div class="alert"><span class="dot" style="background:var(--ok)"></span><div><b>Christmas Day: nearly everything is closed.</b> Meals for the 25th need to be planned ahead.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOURLY -->
+    <section data-view="hourly" hidden>
+      <header class="top">
+        <div class="eyebrow">Hourly schedule</div>
+        <h1>The week, hour by hour</h1>
+        <p class="lede">Hover over or tap any block to see its details. White space is open time. <b>~</b> marks an estimated time that isn't in Mom's plan.</p>
+      </header>
+      <div class="toolbar" id="filters">
+        <button class="chipf" data-cat="act" aria-pressed="true"><span class="dot" style="background:var(--c-act)"></span>Group activity</button>
+        <button class="chipf" data-cat="meal" aria-pressed="true"><span class="dot" style="background:var(--c-meal)"></span>Meals</button>
+        <button class="chipf" data-cat="travel" aria-pressed="true"><span class="dot" style="background:var(--c-travel)"></span>Travel</button>
+        <button class="chipf" data-cat="free" aria-pressed="true"><span class="dot" style="background:var(--c-free)"></span>Free time</button>
+        <button class="chipf" data-cat="note" aria-pressed="true"><span class="dot" style="background:transparent;border:1.5px dashed var(--faint)"></span>TBD / notes</button>
+        <span class="spacer"></span>
+        <label class="switch"><input type="checkbox" id="dl-toggle"> Show daylight</label>
+      </div>
+      <div class="card sched-wrap"><div class="sched" id="sched"></div></div>
+      <div class="legend">
+        <span><i style="background:var(--c-act-bg);border-left:3px solid var(--c-act)"></i>Scheduled group activity</span>
+        <span><i style="background:var(--c-meal-bg);border-left:3px solid var(--c-meal)"></i>Meal</span>
+        <span><i style="background:var(--c-travel-bg);border-left:3px solid var(--c-travel)"></i>Travel</span>
+        <span><i style="background:var(--c-free-bg);border-left:3px solid var(--c-free)"></i>Designated free time</span>
+        <span><i style="border:1px dashed var(--faint)"></i>TBD / note</span>
+      </div>
+    </section>
+
+    <!-- DAYS -->
+    <section data-view="days" hidden>
+      <header class="top">
+        <div class="eyebrow">Day by day</div>
+        <h1>Itinerary</h1>
+        <p class="lede">Everything from the plan, one day at a time.</p>
+      </header>
+      <div class="toolbar"><input class="search" id="q" type="search" placeholder="Search — e.g. gondola, dinner, Golden" aria-label="Search the itinerary"><span class="spacer"></span><span class="sub" id="q-n"></span></div>
+      <div class="days" id="days"></div>
+    </section>
+
+    <!-- SATURDAY -->
+    <section data-view="saturday" hidden>
+      <header class="top">
+        <div class="eyebrow">Saturday, Dec 26 · Open all day</div>
+        <h1>What should we do Saturday?</h1>
+        <p class="lede">Pick one, or wander Canmore / Banff at leisure. Johnston Canyon is the focus. Tap an option to mark your pick (it's saved only in your browser).</p>
+      </header>
+      <div class="grid">
+        <div class="span-12"><div class="opts" id="opts"></div><p class="pick-note" id="pick-note" style="margin-top:10px"></p></div>
+        <div class="card span-7">
+          <div class="card-h"><h2>Where Johnston Canyon could fit</h2><span class="aside">Mom is weighing</span></div>
+          <div id="places"></div>
+        </div>
+        <div class="card span-5">
+          <div class="card-h"><h2>Still TBD</h2></div>
+          <div class="alerts">
+            <div class="alert"><span class="dot" style="background:var(--warn)"></span><div><b>Sleigh ride</b><div class="m">Mom is trying to schedule one.</div></div></div>
+            <div class="alert"><span class="dot" style="background:var(--accent)"></span><div><b>Evening</b><div class="m">Clean out fridges and get organized for Sunday's 9 am departure.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPDATES -->
+    <section data-view="updates" hidden>
+      <header class="top">
+        <div class="eyebrow">From Mom · Nov 17</div>
+        <h1>Updates</h1>
+        <p class="lede">What changed since the Nov 4 itinerary.</p>
+      </header>
+      <div class="card"><div class="feed" id="feed"></div></div>
+    </section>
+
+    <p class="foot">Based on Laura Day's email "Important information &amp; updated itinerary" (Nov 4, 2026) and her notes shared Nov 17, 2026 · Stay: Canmore, Alberta</p>
+  </div></main>
+</div>
+
+<div class="tip" id="tip" role="tooltip" aria-hidden="true"></div>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title" hidden>
+  <div class="dr-head"><div><h2 id="dr-title"></h2><div class="dr-sub" id="dr-sub"></div></div><button class="dr-close" id="dr-close" aria-label="Close">×</button></div>
+  <div class="dr-body" id="dr-body"></div>
+</aside>
+
+<script>
+// ---------- data ----------
+const DAYS=[
+ {id:20,wd:'Sun',title:'Arrivals',open:3.5,pills:[],
+  blocks:[
+   {c:'travel',s:7,e:16,t:'Arrivals — flights, bags & cars, drive to Canmore',est:1},
+   {c:'act',s:16,e:17.5,t:'Check-in 4pm + grocery run',d:'Check-in at 4:00 pm. Grocery run on the way in or right after check-in. Room assignments & kitchen setup.'},
+   {c:'note',s:18,e:19,t:'Dinner — TBD'}],
+  tl:[['Day','travel','Collect bags & cars, drive to Canmore'],['4:00 pm','act','Check-in','Grocery run on the way in or right after check-in'],['Evening','act','Room assignments & kitchen setup'],['Dinner','note','Dinner TBD']]},
+ {id:21,wd:'Mon',title:'Mt Norquay Tubing',open:6.5,pills:[],
+  blocks:[
+   {c:'act',s:9,e:10.5,t:'Food drive — Save-A-Lot run (AM)',est:1,d:'Holiday food-drive collection & donation.'},
+   {c:'meal',s:11,e:12.25,t:'Early lunch',d:'11:00 am – 12:15 pm'},
+   {c:'act',s:12.25,e:17,t:'Mt Norquay tubing (session 1:30–4:30)',d:'Depart 12:15 pm, arrive 12:45–1:00 pm. Tubing 1:30–4:30 pm. Home right after.'},
+   {c:'note',s:18,e:19,t:'Dinner at home — TBD'}],
+  tl:[['Morning','act','Save-A-Lot run','Holiday food-drive collection & donation'],['11:00 am','meal','Early lunch','Until 12:15 pm'],['12:15 pm','travel','Depart for Mt Norquay','Arrive 12:45–1:00 pm'],['1:30 pm','act','Tubing','1:30–4:30 pm, home right after'],['Dinner','note','Dinner at home TBD']]},
+ {id:22,wd:'Tue',title:'Dogsledding',open:6,pills:[['lock','Non-cancellable']],
+  blocks:[
+   {c:'meal',s:7,e:8,t:'Breakfast',d:'7:00 am early rise; breakfast on your own.'},
+   {c:'act',s:8,e:12,t:'Snowy Owl dogsledding 9–12',d:'Depart 8:00 am. Snowy Owl Dogsledding, Canmore, 9:00 am – noon. Past the cancellation window.',lock:1},
+   {c:'meal',s:12,e:13,t:'Lunch at home'},
+   {c:'note',s:13,e:18,t:'OPEN — afternoon TBD: Canmore exploring / downtime',d:'Canmore exploring, sledding at Canmore Park, or downtime.'},
+   {c:'note',s:18,e:19,t:'Dinner at home — TBD'},
+   {c:'act',s:19,e:21,t:'Photos of the day + movie night',est:1,d:'Photos of the day (2 favorites each) on the TV + Christmas movie night.'}],
+  tl:[['7:00 am','meal','Early rise','Breakfast on your own'],['8:00 am','travel','Depart for Snowy Owl Dogsledding','Canmore'],['9:00 am','act','Dogsledding','9:00 am – noon · past the cancellation window'],['Noon','meal','Lunch at home'],['Afternoon','note','TBD','Canmore exploring, sledding at Canmore Park, or downtime'],['Dinner','note','Dinner at home TBD'],['Evening','act','Photos of the day + Christmas movie night','2 favorites each on the TV']]},
+ {id:23,wd:'Wed',title:'Banff Gondola',open:8.83,pills:[],
+  blocks:[
+   {c:'act',s:9,e:12.5,t:'Banff Gondola (on mountain 10:50–12:10)',d:'Depart 9:00 am. Check in by 10:30 am — park at the Banff Train Station lot and take the shuttle to the gondola. On the mountain 10:50 am – 12:10 pm.'},
+   {c:'free',s:12.5,e:16,t:'Free time — Banff Ave (on your own)',d:'12:30–4:00 pm lunch & free time on Banff Ave. Home at 4:00 pm.'},
+   {c:'note',s:18,e:19,t:'Dinner — TBD'},
+   {c:'act',s:19,e:21,t:'Photos, movies & games',est:1}],
+  tl:[['Morning','meal','Early-ish rise','Breakfast on your own'],['9:00 am','travel','Depart for the Banff Gondola','Park at Banff Train Station lot, shuttle to the gondola'],['10:30 am','act','Check in','On the mountain 10:50 am – 12:10 pm'],['12:30 pm','free','Lunch & free time on Banff Ave','Until 4:00 pm'],['4:00 pm','travel','Home'],['Evening','note','Dinner TBD, photos, movies & games']]},
+ {id:24,wd:'Thu',title:'Snowmobiling — Golden, BC',open:5,pills:[['lock','Non-cancellable'],['tbd','Headcount']],
+  blocks:[
+   {c:'act',s:9,e:16,t:'Snowmobiles — Golden BC (tour noon–2)',d:'9:00 am SHARP depart for White and Wild Snowmobiles, 994 Oster Rd, Golden BC (~2-hr drive). Check in, waivers, helmet fitting. Guided tour noon – 2:00 pm. Home right after. Past the cancellation window; outfit holding 17 slots.',lock:1},
+   {c:'note',s:18,e:19,t:'Dinner — TBD'},
+   {c:'act',s:19,e:21,t:'Photos + relaxing',est:1,d:'Possible cookie decorating, photos of the day.'}],
+  tl:[['Morning','meal','Early rise','Breakfast on your own · pack sandwiches, drinks & snacks per family'],['9:00 am','travel','Depart — SHARP','White and Wild Snowmobiles, 994 Oster Rd, Golden BC (~2-hr drive)'],['Late AM','act','Check in, waivers, helmet fitting'],['Noon','act','Guided snowmobile tour','Noon – 2:00 pm · past the cancellation window'],['Afternoon','travel','Home right after'],['Evening','note','Dinner TBD, possible cookie decorating, photos of the day'],['Note','note','Outfit is holding 17 slots — headcount to finalize']]},
+ {id:25,wd:'Fri',title:'Christmas Day — Bowling',open:9.5,pills:[['lock','Nonrefundable']],
+  blocks:[
+   {c:'note',s:7,e:10,t:'OPEN — Christmas morning'},
+   {c:'meal',s:10,e:11.5,t:'Brunch at home',est:1},
+   {c:'note',s:11.5,e:14,t:'OPEN — free until 2pm'},
+   {c:'act',s:14,e:17,t:'Bowling — High Rollers (lanes 3–5pm)',d:'Depart 2:00 pm. High Rollers, 110 Banff Ave. 3:00–5:00 pm, 2 lanes. Nonrefundable.',lock:1},
+   {c:'note',s:18,e:19,t:'Dinner at home — TBD',d:'Nearly everything is closed today, so meal planning has to be buttoned down.'}],
+  tl:[['Morning','note','Merry Christmas! Free morning'],['Late AM','meal','Brunch at home'],['2:00 pm','travel','Depart for bowling','High Rollers, 110 Banff Ave'],['3:00 pm','act','Bowling','3:00–5:00 pm · 2 lanes · nonrefundable'],['Dinner','note','Dinner at home, meal TBD','Nearly everything is closed — plan meals ahead']]},
+ {id:26,wd:'Sat',title:'Open day — Johnston Canyon is the focus',open:13.5,pills:[['open','Open all day']],
+  blocks:[
+   {c:'note',s:8,e:16,t:'OPEN ALL DAY — Johnston Canyon? Lake Louise?',d:'No activity scheduled yet. See the Saturday page for the options.',link:'saturday'},
+   {c:'act',s:18,e:19.5,t:'Clean-up, pack',est:1,d:'Clean out fridges, get organized for departure.'}],
+  tl:[['Day','note','No activity scheduled yet','Johnston Canyon is the focus — see Saturday options'],['Evening','act','Clean out fridges, get organized for departure']]},
+ {id:27,wd:'Sun',title:'Departure',open:null,pills:[],
+  blocks:[{c:'act',s:7,e:9,t:'Pack up, depart 9am',d:'Pack up. Depart by 9:00 am — vacate the rental by 9 am.'}],
+  tl:[['Morning','act','Pack up'],['9:00 am','travel','Depart','Vacate the rental by 9 am']]}
+];
+const OPTS=[
+ {t:'Ski school & beginner slopes',d:'Lessons and easy runs for anyone who wants to try skiing.',tags:[]},
+ {t:'Snow tubing, second time',d:'Another round of tubing after Monday at Mt Norquay.',tags:[]},
+ {t:'Johnston Canyon ice walk',d:'Unguided. Ice cleats required.',tags:[['open','Family lean: Chelce & Robert\'s crew'],['tbd','Cleats required']]},
+ {t:'Lake Louise day',d:'A day trip to Lake Louise.',tags:[]},
+ {t:'Abraham Lake',d:'Frozen bubbles in the ice. About a 2-hr drive.',tags:[['tbd','2-hr drive']]}
+];
+const PLACES=[
+ {k:'A',t:'On the return drive home, Dec 24',m:'Fold it into the drive back from Golden.',f:2},
+ {k:'B',t:'On the way to or from Lake Louise on the 27th',m:'Pair it with a Lake Louise outing.',f:2},
+ {k:'C',t:'Split across Dec 21 & 23',m:'Leave earlier Dec 21 to explore Banff before tubing, then go straight to Johnston Canyon after the gondola and a quick lunch Dec 23. Mom\'s least favorite — the 24th is already an all-day trip and the 25th needs meals locked down.',f:1}
+];
+const FEED=[
+ {c:'var(--accent)',bg:'var(--accent-soft)',ic:'<path d="M3 20l6-9 4 5 3-4 5 8z"/>',t:'Johnston Canyon — Mom is working it in',m:'Three ways it could fit: (A) on the return drive home Dec 24, (B) on the way to or from Lake Louise on the 27th, (C) split Dec 21/23. C is her least favorite.',go:'saturday'},
+ {c:'var(--bad)',bg:'#fde4e3',ic:'<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/>',t:'Bowling is nonrefundable',m:'Mom says that one is her fault for not reading the fine print.'},
+ {c:'var(--warn)',bg:'var(--c-meal-bg)',ic:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M17 11h5"/>',t:'Ashley is cutting her stay short',m:'Mom only learned this a few days ago and wants Ashley to still see the things she\'s always wanted to see. The snowmobile outfit is holding 17 slots until Mom confirms the headcount.'},
+ {c:'var(--ok)',bg:'var(--c-free-bg)',ic:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/>',t:'Bookings are locked in',m:'Snowmobiles and dogsledding are past the cancellation window. Every other activity is sold out for the week.'}
+];
+const H0=7,H1=22,SPAN=H1-H0,DL=[8.75,16.62];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtH=h=>{const hh=Math.floor(h),mm=Math.round((h-hh)*60),ap=hh>=12?'pm':'am',h12=((hh+11)%12)+1;return h12+(mm?':'+String(mm).padStart(2,'0'):'')+' '+ap};
+const fmtShort=h=>{const hh=Math.floor(h);return (((hh+11)%12)+1)+(hh>=12?'p':'a')};
+
+// ---------- time in Banff ----------
+function banffNow(){
+  try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Edmonton',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+    const g=t=>+p.find(x=>x.type===t).value;return {y:g('year'),m:g('month'),d:g('day'),h:(g('hour')%24)+g('minute')/60}}
+  catch(e){const n=new Date();return {y:n.getFullYear(),m:n.getMonth()+1,d:n.getDate(),h:n.getHours()+n.getMinutes()/60}}
+}
+const NOW=banffNow();
+const tripDay=(NOW.y===2026&&NOW.m===12&&NOW.d>=20&&NOW.d<=27)?NOW.d:null;
+
+// ---------- overview ----------
+(function(){
+  const today=Date.UTC(NOW.y,NOW.m-1,NOW.d),start=Date.UTC(2026,11,20),end=Date.UTC(2026,11,27);
+  const dd=Math.round((start-today)/864e5);
+  if(dd>0){$('#k-count').innerHTML=dd+'<small>days</small>';$('#k-count-s').textContent='until arrival on Sun, Dec 20'}
+  else if(today<=end){$('#k-count').innerHTML='Day '+(NOW.d-19)+'<small>of 8</small>';$('#k-count-s').textContent='We\'re in Banff!'}
+  else{$('#k-count').textContent='Done';$('#k-count-s').textContent='Hope it was a great trip'}
+  const tot=DAYS.reduce((a,d)=>a+(d.open||0),0);
+  $('#k-open').innerHTML=tot.toFixed(1)+'<small>h</small>';
+  const max=Math.max(...DAYS.map(d=>d.open||0));
+  $('#open-bars').innerHTML=DAYS.map(d=>`<button class="bar-row" data-day="${d.id}"><span class="l">${d.wd} <span>Dec ${d.id}</span></span><span class="bar-track"><span class="bar-fill" style="width:${(d.open||0)/max*100}%"></span></span><span class="num">${d.open==null?'–':(+d.open.toFixed(1))+' h'}</span></button>`).join('');
+  // next up
+  let nd=DAYS[0];
+  if(tripDay){nd=DAYS.find(d=>d.id===tripDay);$('#next-h').textContent='Today'}
+  $('#next-up').innerHTML=`<div class="cal"><div class="mo">DEC</div><div class="d">${nd.id}</div></div><div><div class="t">${esc(nd.title)}</div><div class="m">${esc(nd.blocks.filter(b=>b.c==='act')[0]?.d||nd.blocks[0].t)}</div><button class="linkbtn" data-day="${nd.id}" style="margin-top:6px;font-size:13px">See the day ›</button></div>`;
+})();
+
+// ---------- hourly ----------
+const hidden=new Set();
+function renderSched(){
+  const showDL=$('#dl-toggle').checked;
+  let h='<div class="s-head"><span></span><div class="hours">';
+  for(let x=H0;x<H1;x++)h+=`<span style="left:${((x-H0)+.5)/SPAN*100}%">${fmtShort(x)}</span>`;
+  h+='</div><span style="text-align:right">Open</span></div>';
+  DAYS.forEach(d=>{
+    h+=`<div class="s-row"><button class="s-day${d.id===tripDay?' today':''}" data-day="${d.id}">${d.wd} Dec ${d.id}<small>${esc(d.title.split(' — ')[0])}</small></button><div class="lane">`;
+    if(showDL)h+=`<span class="dl" style="left:${(DL[0]-H0)/SPAN*100}%;width:${(DL[1]-DL[0])/SPAN*100}%"></span>`;
+    d.blocks.forEach((b,i)=>{
+      const L=(b.s-H0)/SPAN*100,W=(b.e-b.s)/SPAN*100;
+      h+=`<button class="blk ${b.c}${b.est?' est':''}${hidden.has(b.c)?' dim':''}" style="left:calc(${L}% + 2px);width:calc(${W}% - 4px)" data-day="${d.id}" data-i="${i}" aria-label="${esc((b.est?'Estimated: ':'')+b.t+', '+fmtH(b.s)+' to '+fmtH(b.e))}"><span class="bt">${b.est?'~ ':''}${esc(b.t)}</span><span class="tm">${fmtH(b.s)} – ${fmtH(b.e)}</span></button>`;
+    });
+    if(d.id===tripDay&&NOW.h>=H0&&NOW.h<=H1)h+=`<span class="nowline" style="left:${(NOW.h-H0)/SPAN*100}%"></span>`;
+    h+=`</div><div class="s-open">${d.open==null?'–':(+d.open.toFixed(2))+' h'}<small>open</small></div></div>`;
+  });
+  $('#sched').innerHTML=h;
+  fitBlocks();
+}
+$$('#filters .chipf').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cat;hidden.has(c)?hidden.delete(c):hidden.add(c);b.setAttribute('aria-pressed',String(!hidden.has(c)));renderSched()}));
+$('#dl-toggle').addEventListener('change',()=>{try{localStorage.setItem('banff-dl',$('#dl-toggle').checked?'1':'0')}catch(e){}renderSched()});
+try{$('#dl-toggle').checked=localStorage.getItem('banff-dl')==='1'}catch(e){}
+renderSched();
+
+// ---------- days ----------
+function renderDays(q){
+  q=(q||'').trim().toLowerCase();
+  const hl=s=>{s=esc(s);if(!q)return s;const i=s.toLowerCase().indexOf(esc(q).toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+esc(q).length)+'</mark>'+s.slice(i+esc(q).length)};
+  let n=0;
+  $('#days').innerHTML=DAYS.map(d=>{
+    const hay=(d.title+' '+d.tl.flat().join(' ')).toLowerCase();
+    if(q&&!hay.includes(q))return '';
+    n++;
+    const pills=d.pills.map(p=>`<span class="pill ${p[0]}">${p[1]}</span>`).join('')+(d.open!=null?`<span class="pill">${+d.open.toFixed(1)} h open</span>`:'');
+    return `<div class="card day" id="day-${d.id}"><div class="cal"><div class="mo">DEC</div><div class="d">${d.id}</div><div class="w">${d.wd.toUpperCase()}</div></div><div><div class="day-h"><h2>${hl(d.title)}</h2><div class="pills">${pills}</div></div><ul class="tl">${d.tl.map(r=>`<li class="${r[1]}"><span class="w">${esc(r[0])}</span><span class="pt"></span><span class="x">${hl(r[2])}${r[3]?`<small>${hl(r[3])}</small>`:''}</span></li>`).join('')}</ul></div></div>`;
+  }).join('')||'<div class="card"><p class="sub">Nothing matches that search.</p></div>';
+  $('#q-n').textContent=q?n+' of 8 days':'';
+}
+$('#q').addEventListener('input',e=>renderDays(e.target.value));
+renderDays();
+
+// ---------- saturday ----------
+let pick=null;try{pick=localStorage.getItem('banff-pick')}catch(e){}
+function renderOpts(){
+  $('#opts').innerHTML=OPTS.map((o,i)=>`<button class="opt" data-o="${i}" aria-pressed="${pick===String(i)}"><span class="ix">${i+1}</span><span class="t">${esc(o.t)}</span><span class="d">${esc(o.d)}</span><span class="tags">${o.tags.map(t=>`<span class="pill ${t[0]}">${esc(t[1])}</span>`).join('')}</span></button>`).join('');
+  $('#pick-note').textContent=pick!=null&&OPTS[pick]?'Your pick: '+OPTS[pick].t+'. Tap it again to clear.':'';
+}
+$('#opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;pick=pick===b.dataset.o?null:b.dataset.o;try{pick==null?localStorage.removeItem('banff-pick'):localStorage.setItem('banff-pick',pick)}catch(e){}renderOpts()});
+renderOpts();
+$('#places').innerHTML=PLACES.map(p=>`<div class="place"><span class="k">${p.k}</span><div><div style="font-weight:600">${esc(p.t)}</div><div class="m">${esc(p.m)}</div></div></div>`).join('');
+
+// ---------- updates ----------
+$('#feed').innerHTML=FEED.map(f=>`<div class="feed-row"><span class="feed-ic" style="background:${f.bg};color:${f.c}"><svg viewBox="0 0 24 24">${f.ic}</svg></span><div><div class="feed-t">${esc(f.t)}</div><div class="feed-m">${esc(f.m)}</div>${f.go?`<a class="linkbtn" href="#${f.go}" style="display:inline-block;margin-top:6px;font-size:13px;text-decoration:none">See Saturday options ›</a>`:''}</div></div>`).join('');
+
+// ---------- fit text & tooltip ----------
+function fitBlocks(){
+  $$('#sched .blk').forEach(el=>{
+    el.classList.remove('fit-2','fit-1','fit-0');
+    const w=el.clientWidth,h=el.clientHeight,bt=el.querySelector('.bt'),tm=el.querySelector('.tm');
+    if(w<30){el.classList.add('fit-0');return}
+    // longest single word must fit, otherwise use one ellipsized line
+    const probe=document.createElement('span');probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:inherit';
+    el.appendChild(probe);const longest=Math.max(...bt.textContent.split(/\s+/).map(wd=>{probe.textContent=wd;return probe.offsetWidth}));probe.remove();
+    const inner=w-parseFloat(getComputedStyle(el).paddingLeft)-parseFloat(getComputedStyle(el).paddingRight);
+    if(longest>inner+1){el.classList.add('fit-1');return}
+    // title gets 2 lines when the time also needs room, else 3
+    const lh=parseFloat(getComputedStyle(bt).lineHeight)||14;
+    const avail=h-12-(tm.offsetHeight+2);
+    if(avail<lh*2.9)el.classList.add('fit-2');
+    if(bt.scrollHeight>bt.clientHeight+1||tm.scrollWidth>tm.clientWidth+1)el.dataset.trunc='1';else delete el.dataset.trunc;
+  });
+}
+let lastPtr='mouse',tipFor=null,tipTimer=null;
+document.addEventListener('pointerdown',e=>{lastPtr=e.pointerType||'mouse'},true);
+const CATC={act:'var(--c-act)',meal:'var(--c-meal)',travel:'var(--c-travel)',free:'var(--c-free)',note:'var(--faint)'};
+function showTip(el){
+  clearTimeout(tipTimer);
+  const d=DAYS.find(x=>x.id==el.dataset.day),b=d.blocks[+el.dataset.i],tip=$('#tip');
+  if(tipFor&&tipFor!==el)tipFor.classList.remove('tip-on');
+  tipFor=el;el.classList.add('tip-on');
+  tip.innerHTML=`<div class="tt"><span class="dot" style="background:${CATC[b.c]}"></span><span>${esc(b.t)}</span></div>
+    <div class="tw">${d.wd}, Dec ${d.id} · ${fmtH(b.s)} – ${fmtH(b.e)}</div>
+    ${b.d?`<div class="td">${esc(b.d)}</div>`:''}
+    ${(b.est||b.lock)?`<div class="tf">${b.est?'<span class="pill tbd">~ estimated time</span>':''}${b.lock?'<span class="pill lock">Can\'t cancel / refund</span>':''}</div>`:''}
+    <button class="linkbtn tmore" id="tip-more" ${lastPtr==='touch'?'':'hidden'}>Open details ›</button>`;
+  tip.style.left='0px';tip.style.top='0px';tip.classList.add('show');tip.setAttribute('aria-hidden','false');
+  const r=el.getBoundingClientRect(),t=tip.getBoundingClientRect(),m=12;
+  let x=r.left+r.width/2-t.width/2;x=Math.max(m,Math.min(x,innerWidth-t.width-m));
+  let y=r.top-t.height-8;if(y<m)y=r.bottom+8;
+  tip.style.left=x+'px';tip.style.top=y+'px';
+}
+function hideTip(){
+  clearTimeout(tipTimer);const tip=$('#tip');tip.classList.remove('show');tip.setAttribute('aria-hidden','true');
+  if(tipFor)tipFor.classList.remove('tip-on');tipFor=null;
+}
+const sched=$('#sched');
+sched.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const el=e.target.closest('.blk');if(el&&el!==tipFor)showTip(el)});
+sched.addEventListener('pointerout',e=>{if(e.pointerType==='touch')return;const el=e.target.closest('.blk');if(el&&!el.contains(e.relatedTarget))tipTimer=setTimeout(hideTip,80)});
+sched.addEventListener('focusin',e=>{const el=e.target.closest('.blk');if(el&&lastPtr!=='touch')showTip(el)});
+sched.addEventListener('focusout',()=>{if(lastPtr!=='touch')hideTip()});
+$('.sched-wrap').addEventListener('scroll',hideTip,{passive:true});
+window.addEventListener('scroll',hideTip,{passive:true});
+window.addEventListener('resize',()=>{hideTip();fitBlocks()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hideTip()});
+
+// ---------- drawer ----------
+const CATN={act:'Group activity',meal:'Meal',travel:'Travel',free:'Designated free time',note:'TBD / note'};
+let lastFocus=null;
+function openDrawer(title,sub,body){
+  lastFocus=document.activeElement;
+  $('#dr-title').textContent=title;$('#dr-sub').textContent=sub;$('#dr-body').innerHTML=body;
+  const dr=$('#drawer'),sc=$('#scrim');dr.hidden=false;sc.hidden=false;
+  requestAnimationFrame(()=>{dr.classList.add('open');sc.classList.add('open');$('#dr-close').focus()});
+}
+function closeDrawer(){
+  const dr=$('#drawer'),sc=$('#scrim');dr.classList.remove('open');sc.classList.remove('open');
+  setTimeout(()=>{dr.hidden=true;sc.hidden=true},230);if(lastFocus)lastFocus.focus();
+}
+function blockDrawer(d,b){
+  openDrawer(b.t.replace(/ \(.*\)$/,''),`${d.wd}, Dec ${d.id} · ${d.title}`,
+   `<dl class="kv"><dt>When</dt><dd>${fmtH(b.s)} – ${fmtH(b.e)}${b.est?' <span class="pill tbd">~ estimated</span>':''}</dd><dt>Type</dt><dd>${CATN[b.c]}</dd>${b.lock?'<dt>Booking</dt><dd><span class="pill lock">Can\'t cancel / refund</span></dd>':''}</dl>
+    ${b.d?`<div class="dr-note">${esc(b.d)}</div>`:''}
+    ${b.link?`<a class="linkbtn" href="#${b.link}" data-close>See Saturday options ›</a>`:''}
+    <button class="linkbtn" data-day="${d.id}">See the whole day ›</button>`);
+}
+function dayDrawer(d){
+  openDrawer(d.title,`${d.wd}, Dec ${d.id}${d.open!=null?' · '+(+d.open.toFixed(1))+' h open':''}`,
+   `<div class="pills">${d.pills.map(p=>`<span class="pill ${p[0]}">${p[1]}</span>`).join('')}</div><ul class="tl">${d.tl.map(r=>`<li class="${r[1]}"><span class="w">${esc(r[0])}</span><span class="pt"></span><span class="x">${esc(r[2])}${r[3]?`<small>${esc(r[3])}</small>`:''}</span></li>`).join('')}</ul>`);
+}
+document.addEventListener('click',e=>{
+  const blk=e.target.closest('.blk');
+  if(blk){
+    if(lastPtr==='touch'&&tipFor!==blk){showTip(blk);return}
+    hideTip();const d=DAYS.find(x=>x.id==blk.dataset.day);blockDrawer(d,d.blocks[+blk.dataset.i]);return}
+  if(e.target.closest('#tip-more')){const b=tipFor;hideTip();if(b){const d=DAYS.find(x=>x.id==b.dataset.day);blockDrawer(d,d.blocks[+b.dataset.i])}return}
+  if(tipFor&&!e.target.closest('#tip'))hideTip();
+  const dy=e.target.closest('[data-day]');
+  if(dy){const d=DAYS.find(x=>x.id==dy.dataset.day);if($('#drawer').classList.contains('open')){closeDrawer();setTimeout(()=>dayDrawer(d),240)}else dayDrawer(d);return}
+  if(e.target.closest('[data-close]'))closeDrawer();
+});
+$('#dr-close').addEventListener('click',closeDrawer);
+$('#scrim').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#drawer').classList.contains('open'))closeDrawer()});
+
+// ---------- routing ----------
+const PAGES=['overview','hourly','days','saturday','updates'];
+function route(){
+  const p=PAGES.includes((location.hash||'').slice(1))?location.hash.slice(1):'overview';
+  $$('[data-view]').forEach(s=>s.hidden=s.dataset.view!==p);
+  $$('nav.side a').forEach(a=>{if(a.dataset.page===p)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if($('#drawer').classList.contains('open'))closeDrawer();
+  hideTip();
+  if(p==='hourly')requestAnimationFrame(fitBlocks);
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);route();
+
+// ---------- theme ----------
+function markTheme(){const t=document.documentElement.getAttribute('data-theme')||'auto';$$('[data-theme-set]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeSet===t)))}
+$$('[data-theme-set]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.themeSet;if(t==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('banff-theme',t)}catch(e){}markTheme()}));
+try{const s=localStorage.getItem('banff-theme');if(s&&s!=='auto')document.documentElement.setAttribute('data-theme',s)}catch(e){}
+markTheme();
+</script>
+</body>
+</html>
